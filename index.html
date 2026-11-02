@@ -185,7 +185,6 @@ $('smartStart').onclick=()=>smartSession(false);$('smartNew').onclick=()=>smartS
 const viewButtons=[...document.querySelectorAll('[data-view]')];
 function switchView(view){if(!['cards','quiz','progress'].includes(view))view='cards';viewButtons.forEach(b=>b.setAttribute('aria-selected',String(b.dataset.view===view)));['cards','quiz','progress'].forEach(v=>$(v+'View').hidden=v!==view);localStorage.setItem('fiszkiActiveView',view);hideTranslation();}
 viewButtons.forEach(b=>b.addEventListener('click',()=>switchView(b.dataset.view)));
-switchView(localStorage.getItem('fiszkiActiveView')||'cards');
 let questionIndex=-1,answered=false;
 const quizTranslations={
 'craving for':'ochota na / zachcianka','aims to':'ma na celu','struggle with':'zmagać się z','reach':'dotrzeć do','pursue':'dążyć do','artisan chocolate':'czekolada rzemieślnicza','seek information':'szukać informacji',
@@ -224,7 +223,7 @@ function scheduleGitHubSync(){if(!ghReady)return;ghDirty=true;clearTimeout(ghTim
 $('ghConnect').onclick=ghConnect;$('ghSync').onclick=()=>{if(!ghReady){ghStatus('Najpierw kliknij „Zapisz dane i pobierz”.');return}ghSyncNow()};$('ghDisconnect').onclick=()=>{localStorage.removeItem(GH_CONFIG);ghConfig=null;ghReady=false;clearTimeout(ghTimer);$('ghToken').value='';ghStatus('Token usunięty z tego urządzenia.')};
 if(ghConfig?.token&&ghConfig?.owner){ghStatus('Zapisane połączenie — pobieram postępy…');(async()=>{try{await ghPull();ghReady=true;ghStatus('✅ Pobrano postępy z GitHuba.')}catch(e){ghStatus('❌ '+e.message)}})()}
 window.addEventListener('online',()=>{if(ghReady&&ghDirty)ghSyncNow()});
-updateSmart();drawCalendar();nextQuiz();showQuizStats();
+updateSmart();drawCalendar();nextQuiz();showQuizStats();switchView(localStorage.getItem('fiszkiActiveView')||'cards');
 </script>
 </body>
 </html>
